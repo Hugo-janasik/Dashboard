@@ -10,10 +10,10 @@ WORKDIR /app/
 RUN npm config set package-lock false
 
 #Install dependencies
-RUN npm install ./dashboard/
+RUN npm install "/app"
 
 #Expose port 3000
 EXPOSE 3000
 
 #Run code
-CMD [ "node", "index.js" ]
+CMD [ "node", "/app/index.js" ]
