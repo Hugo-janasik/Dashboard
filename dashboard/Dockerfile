@@ -10,7 +10,7 @@ WORKDIR /app/
 RUN npm config set package-lock false
 
 #Install dependencies
-RUN npm install ./dashboard/
+RUN npm install
 
 #Expose port 3000
 EXPOSE 3000
