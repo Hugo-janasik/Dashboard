@@ -3,6 +3,27 @@ const router = express.Router();
 const passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+var FacebookStrategy = require('passport-facebook').Strategy;
+
+passport.use(new FacebookStrategy({
+    clientID: "577128116366065",
+    clientSecret: "b6130d2cf6a901dbdb8b69c7b8ff17a6",
+    callbackURL: "https://localhost:8080/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log(profile)
+    // TODO: do sth with returned values
+  })
+);
+
+router.get('/auth/facebook', passport.authenticate('facebook',{scope:'email'}));
+
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect : '/', failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
 var User = require('../models/user');
 
 router.get('/register', function(req, res) {

@@ -10,6 +10,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
+const https = require('https');
+const fs = require('fs');
 
 mongoose.Promise = global.Promise;
 
@@ -22,6 +24,13 @@ const routes = require('./routes/index');
 const users = require('./routes/users');
 
 const app = express();
+
+//Create HTTPS Server
+https.createServer({
+    key: fs.readFileSync('./certif/server.key'),
+    cert: fs.readFileSync('./certif/server.cert')
+}, app).listen(3000);
+
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({defaultLayout:'layout'}));
 app.set('view engine', 'handlebars');
@@ -71,7 +80,7 @@ app.use(function (req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 
-app.set('port', (3000));
-app.listen(app.get('port'),function(){
-    console.log('Server started on port '+app.get('port'));
-});
+//app.set('port', (3000));
+//app.listen(app.get('port'),function(){
+//    console.log('Server started on port '+app.get('port'));
+//});
