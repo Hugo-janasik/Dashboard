@@ -2,36 +2,23 @@
   "name": "dashboard",
   "version": "1.0.0",
   "description": "epitech project",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "",
+  "author": "Hugo Prat & Hugo Janasik",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.2",
-    "connect-flash": "^0.1.1",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.16.2",
-    "express-handlebars": "^3.0.0",
-    "express-messages": "^1.0.1",
-    "express-session": "^1.15.6",
-    "express-validator": "^4.2.1",
-    "mongodb": "^3.3.3",
-    "mongoose": "^5.7.7",
-    "passport": "^0.4.0",
-    "passport-http": "^0.3.0",
-    "passport-local": "^1.0.0",
-    "popper.js": "^1.12.5",
-    "passport-facebook": "^3.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Jorisvideo/dashboard-tuto.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Jorisvideo/dashboard-tuto/issues"
-  },
-  "homepage": "https://github.com/Jorisvideo/dashboard-tuto#readme"
+    "express": "~4.12.3",
+    "morgan": "~1.5.2",
+    "cookie-parser": "latest",
+    "express-session": "latest",
+    "mongoose": "latest",
+    "ejs": "latest",
+    "body-parser": "latest",
+    "passport": "~0.2.1",
+    "passport-local": "~1.0.0",
+    "connect-flash": "~0.1.1",
+    "bcrypt": "~0.8.1",
+    "passport-facebook": "~2.0.0"
+  }
 }
