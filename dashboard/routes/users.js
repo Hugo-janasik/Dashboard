@@ -2,39 +2,33 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
 var FacebookStrategy = require('passport-facebook').Strategy;
-
-passport.use(new FacebookStrategy({
-    clientID: "577128116366065",
-    clientSecret: "b6130d2cf6a901dbdb8b69c7b8ff17a6",
-    callbackURL: "https://localhost:8080/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    console.log(profile)
-    // TODO: do sth with returned values
-  })
-);
-
-router.get('/auth/facebook', passport.authenticate('facebook',{scope:'email'}));
-
-router.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect : '/', failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
 
 var User = require('../models/user');
 
+/* ROUTER GET METHOD */
+
+/* ** /REGISTER ** */
 router.get('/register', function(req, res) {
   res.render('register');
 });
 
+/* ** /LOGIN ** */
 router.get('/login', function(req, res) {
   res.render('login');
 });
 
 
+/* ** /AUTH/FACEBOOK ** */
+/*router.get('/auth/facebook', passport.authenticate('facebook',{scope:'email'}));
+
+router.get('/logout', function(req, res){
+    req.logout();
+    req.flash('success_msg', 'You are logged out');
+    res.redirect('/users/login');
+});*/
+
+/* ROUTER POST METHOD */
 router.post('/register', function(req, res) {
     var name = req.body.name;
     var email = req.body.email;
@@ -74,6 +68,32 @@ router.post('/register', function(req, res) {
   }
 });
 
+router.post('/login',
+    passport.authenticate( 'local', {
+            successRedirect: '/',
+            failureRedirect: '/users/login',
+            failureFlash: true
+    }),
+    function(req, res) {
+        res.redirect('/');
+    }
+);
+
+/* PASSPORT USING */
+
+// FaceBook Strategy
+/*passport.use(new FacebookStrategy({
+    clientID: "577128116366065",
+    clientSecret: "b6130d2cf6a901dbdb8b69c7b8ff17a6",
+    callbackURL: "http://localhost:3000/auth/facebook/callback",
+    passReqToCallBack: true
+    },
+    function (accessToken, refreshToken, profile, done) {
+        return done(null, profile);
+    }
+));
+*/
+// LocalStrategy
 passport.use (new LocalStrategy(
     function(username, password, done) {
         User.getUserByUsername(username, function(err, user) {
@@ -95,33 +115,16 @@ passport.use (new LocalStrategy(
     });
 }));
 
+// seriallize User
 passport.serializeUser(function(user, done){
     done(null, user.id);
 });
 
+// deserialize User
 passport.deserializeUser(function(id, done) {
     User.findById(id, function(err, user) {
         done(err, user);
     });
-});
-router.post(
-    '/login',
-    passport.authenticate(
-        'local',
-        {
-            successRedirect: '/',
-            failureRedirect: '/users/login',
-            failureFlash: true
-        }),
-    function(req, res) {
-        res.redirect('/');
-    });
-
-
-router.get('/logout', function(req, res){
-    req.logout();
-    req.flash('success_msg', 'You are logged out');
-    res.redirect('/users/login');
 });
 
 module.exports = router;
