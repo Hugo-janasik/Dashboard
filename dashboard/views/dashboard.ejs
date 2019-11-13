@@ -4,6 +4,10 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <style>
         body { padding-top:80px; word-wrap:break-word; }
     </style>
@@ -16,7 +20,40 @@
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
 
-    Faire des CALLS API 
+    <form action="/dashboard/weatherMap" method="POST">
+<!--        <input id="City" name="city" type="text" >
+        <input id="getWeather" type="submit" value="Get Weather">-->
+        <div class="container mt-3">
+            <h1>Weather</h1>
+            
+            <div class="input-group mb-3" style="width: 220px">
+                <input name="city" type="text" class="form-control" placeholder="Enter a City">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit">Go</button>
+                </div>
+            </div>
+        </div>
+    </form>
 
+    <div style="padding-left: 8px" id="openweathermap-widget-12"></div>
+    <% if (weather != null) { %>
+        <h2 id="cityId" style="visibility: hidden;"><%= weather %></h2>
+        <script>
+            alert("Quoi ?")
+            alert(document.getElementById("cityId").textContent)
+            window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = []; 
+            window.myWidgetParam.push({ id: 12, cityid: document.getElementById("cityId").textContent, appid: 'aa36a377f65e957bda9498b5d3593ac9', units: 'metric', containerid: 'openweathermap-widget-12', });
+            (function () { 
+                var script = document.createElement('script');
+                script.async = true; 
+                script.charset = "utf-8"; 
+                script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js"; 
+                var s = document.getElementsByTagName('script')[0]; 
+                s.parentNode.insertBefore(script, s); 
+            })();
+        </script>
+    <% } %>
+
+</div>
 </body>
 </html>

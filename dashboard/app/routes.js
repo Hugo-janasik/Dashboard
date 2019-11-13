@@ -1,4 +1,10 @@
 var User = require('./models/user');
+const request = require('request');
+const bodyParser = require('body-parser');
+const app = require('express');
+
+
+const apiKey = 'aa36a377f65e957bda9498b5d3593ac9';
 
 module.exports = function(app, passport){
 
@@ -38,6 +44,34 @@ module.exports = function(app, passport){
         req.logout();
         res.redirect('/');
     })
+
+    app.post('/dashboard/weatherMap', async function (req, res) {
+            let city = req.body.city;
+
+            let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
+            
+                return new Promise((resolve, reject) => {
+                    request (url, function (err, response, body) {
+                        if (err) {
+                            res.render('dashboard', {weather: null, error: 'Error, please try again'});
+                        } else {                            
+                            let weather = JSON.parse(body)
+                            console.log(weather);
+                            
+                            if (weather.main == undefined) {
+                                res.render('dashboard', {weather: null, error: 'Error, please try again'});
+                            } else {
+                                //                                let weatherTemperature = (weather.main.temp - 32) * (5/9);
+                                global.weatherId = `${weather.id}`;
+                                console.log(global.weatherId);
+//                                console.log(global.weatherText)
+                                res.render('dashboard', {weather: global.weatherId, error: null});
+                            }
+                        }
+                    });
+                })
+        })
+
 };
 
 function isLoggedIn(req, res, next) {
