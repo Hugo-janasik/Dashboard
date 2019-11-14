@@ -8,7 +8,6 @@
   },
   "author": "Hugo Prat & Hugo Janasik",
   "dependencies": {
-    "bcrypt": "~0.8.1",
     "body-parser": "latest",
     "connect-flash": "~0.1.1",
     "cookie-parser": "latest",

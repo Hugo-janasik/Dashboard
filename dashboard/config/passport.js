@@ -33,7 +33,8 @@ function(req, email, password, done){
             } else {
                 var newUser = new User();
                 newUser.local.username = email;
-                newUser.local.password = newUser.generateHash(password);
+//                newUser.local.password = newUser.generateHash(password);
+                newUser.local.password = password;
                 newUser.save(function(err){
                     if(err)
                         throw err;
