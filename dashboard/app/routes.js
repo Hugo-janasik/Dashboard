@@ -5,6 +5,7 @@ const app = require('express');
 
 
 const apiKey = 'aa36a377f65e957bda9498b5d3593ac9';
+const googleKey = 'AIzaSyBR-Z9hzONEATbPRVpISUv59OI7Zfb3TWc';
 
 module.exports = function(app, passport){
 
@@ -56,21 +57,72 @@ module.exports = function(app, passport){
                             res.render('dashboard', {weather: null, error: 'Error, please try again'});
                         } else {                            
                             let weather = JSON.parse(body)
-                            console.log(weather);
                             
                             if (weather.main == undefined) {
                                 res.render('dashboard', {weather: null, error: 'Error, please try again'});
                             } else {
-                                //                                let weatherTemperature = (weather.main.temp - 32) * (5/9);
                                 global.weatherId = `${weather.id}`;
-                                console.log(global.weatherId);
-//                                console.log(global.weatherText)
                                 res.render('dashboard', {weather: global.weatherId, error: null});
                             }
                         }
                     });
                 })
         })
+    app.post('/dashboard/destination', async function (req, res) {
+        let _from = req.body.from
+        let _to = req.body.to
+
+        let url = `https://maps.googleapis.com/maps/api/directions/json?origin=${_from}&destination=${_to}&key=${googleKey}`
+        return new Promise((resolve, reject) => {
+            request (url, function (err, response, body) {
+                if (err) {
+                    res.render('dashboard', {distance: null, duration: null, error: 'Error, please try again'});
+                } else {                            
+                    let info = JSON.parse(body)
+                    
+                    if (info.status != "OK") {
+                        res.render('dashbord', {distance: "Not found", duration: "Not found",error: null})
+                    } else {
+                        console.log(info.routes[0].legs[0].distance.text);//.legs);//[0].distance.text);
+                        res.render('dashboard', {distance: info.routes[0].legs[0].distance.text, duration: info.routes[0].legs[0].duration.text, error: null});
+                    }
+                }
+            });
+        })
+    })
+
+    app.post('/dashboard/search', async function (req, res) {
+        let tmp = req.body.place
+        _place = tmp.split(' ').join('+')
+        console.log(_place);
+        
+        let url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query==${_place}&key=${googleKey}`
+        
+        return new Promise((resolve, reject) => {
+            request (url, function (err, response, body) {
+                if (err) {
+                    res.render('dashboard', {info: null, error: 'Error, please try again'});
+                } else {                            
+                    let data = JSON.parse(body)
+                    
+                    if (data.status != "OK") {
+                        res.render('dashbord', {info: "Not found", duration: "Not found",error: null})
+                    } else {
+                        console.log(data.results[0].formatted_address);
+                        var info = "Address: "
+                        info += data.results[0].formatted_address
+                        if (data.results[0].opening_hours != undefined) {
+                            if (data.results[0].opening_hours.open_now == true)
+                                info += " : open"
+                            else
+                                info += " : close"
+                        }
+                        res.render('dashboard', {info: info, error: null});
+                    }
+                }
+            });
+        })
+    })
 
 };
 

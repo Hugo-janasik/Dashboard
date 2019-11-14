@@ -8,51 +8,124 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR-Z9hzONEATbPRVpISUv59OI7Zfb3TWc&callback=initMap">
+    </script>
+
     <style>
         body { padding-top:80px; word-wrap:break-word; }
     </style>
+    <%
+        var weather; 
+        var distance;
+        var duration;
+        var info;
+    %>
 </head>
 <body>
 <div class="container">
 
+    <table>
+
     <div class="page-header text-center">
         <h1>Dashboard Page</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        <a href="/logout" class="btn btn-default btn-sm" style="font-size: 20px">Logout</a>
     </div>
+        
+    <tr>
+        <td>
+            <form action="/dashboard/weatherMap" method="POST">
+                <div class="container mt-3"></div>
+                    <h1>Weather</h1>
 
-    <form action="/dashboard/weatherMap" method="POST">
-<!--        <input id="City" name="city" type="text" >
-        <input id="getWeather" type="submit" value="Get Weather">-->
-        <div class="container mt-3">
-            <h1>Weather</h1>
-            
-            <div class="input-group mb-3" style="width: 220px">
-                <input name="city" type="text" class="form-control" placeholder="Enter a City">
-                <div class="input-group-append">
-                    <button class="btn btn-success" type="submit">Go</button>
+                    <div class="input-group mb-3" style="width: 220px">
+                        <input name="city" type="text" class="form-control" placeholder="Enter a City">
+                        <div class="input-group-append">
+                            <button class="btn btn-success" type="submit">Go</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </form>
+            </form>
+        
+            <div id="openweathermap-widget-12"></div>
+            <% if (weather != null) { %>
+                <h2 id="cityId" style="visibility: hidden;"><%= weather %></h2>
+                <script>
+                    window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = []; 
+                    window.myWidgetParam.push({ id: 12, cityid: document.getElementById("cityId").textContent, appid: 'aa36a377f65e957bda9498b5d3593ac9', units: 'metric', containerid: 'openweathermap-widget-12', });
+                    (function () { 
+                        var script = document.createElement('script');
+                        script.async = true; 
+                        script.charset = "utf-8"; 
+                        script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js"; 
+                        var s = document.getElementsByTagName('script')[0]; 
+                        s.parentNode.insertBefore(script, s); 
+                    })();
+                </script>
+            <% } %>
+        </td>
 
-    <div style="padding-left: 8px" id="openweathermap-widget-12"></div>
-    <% if (weather != null) { %>
-        <h2 id="cityId" style="visibility: hidden;"><%= weather %></h2>
+
+        <td style="width: 300px">
+            <form action="/dashboard/destination" method="POST" style="text-align: center">
+                <h1>Distance and Duration</h1>
+                <div>
+                    <label for="From">From</label>
+                    <input name="from" id="From" type="text">
+                </div>
+                <br/>
+                <div>
+                    <label for="To">To</label>
+                    <input name="to" id="To" type="text" style="margin-left: 12px">
+                </div>
+                <button class="btn btn-success" type="submit">Go</button>
+            </form>
+            <% if (distance != null) { %>
+                <div style="text-align: center">
+                    <h1><%= distance %></h1>
+                    <h1><%= duration %></h1>
+                </div>
+            <% } %>
+        </td>
+
+
+        <td style="width: 300px">
+            <div class="container mt-3">
+                <h1>Maps</h1>
+                <div id="map" style="height: 300px"></div>
+            </div>
+        </td>
         <script>
-            alert("Quoi ?")
-            alert(document.getElementById("cityId").textContent)
-            window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = []; 
-            window.myWidgetParam.push({ id: 12, cityid: document.getElementById("cityId").textContent, appid: 'aa36a377f65e957bda9498b5d3593ac9', units: 'metric', containerid: 'openweathermap-widget-12', });
-            (function () { 
-                var script = document.createElement('script');
-                script.async = true; 
-                script.charset = "utf-8"; 
-                script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js"; 
-                var s = document.getElementsByTagName('script')[0]; 
-                s.parentNode.insertBefore(script, s); 
-            })();
+            
+            map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat: -34.397, lng: 150.644 },
+                    zoom: 8
+            });
+
         </script>
-    <% } %>
+
+        <td style="width: 300px">
+            <form action="/dashboard/search" method="POST">
+                <h1>Places infos</h1>
+                <div class="input-group mb-3" style="width: 220px">
+                    <input name="place" type="text" class="form-control" placeholder="Enter a place">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit">Go</button>
+                    </div>
+                </div>
+            </form>
+            <% if (info != null) { %>
+                <div style="text-align: center">
+                    <h3><%= info %></h3>
+                </div>
+            <% } %>
+        </td>
+
+    </tr>
+        </table>
 
 </div>
 </body>
