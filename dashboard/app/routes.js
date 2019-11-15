@@ -3,9 +3,10 @@ const request = require('request');
 const bodyParser = require('body-parser');
 const app = require('express');
 
+var configAPI = require('./../config/apikey');
 
 const apiKey = 'aa36a377f65e957bda9498b5d3593ac9';
-const googleKey = 'AIzaSyBR-Z9hzONEATbPRVpISUv59OI7Zfb3TWc';
+//const googleKey = 'AIzaSyBR-Z9hzONEATbPRVpISUv59OI7Zfb3TWc';
 
 module.exports = function(app, passport){
 
@@ -58,7 +59,7 @@ module.exports = function(app, passport){
     app.post('/dashboard/weatherMap', async function (req, res) {
             let city = req.body.city;
 
-            let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
+            let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=`+configAPI.weatherAPI;
             
                 return new Promise((resolve, reject) => {
                     request (url, function (err, response, body) {
@@ -81,12 +82,12 @@ module.exports = function(app, passport){
         let _from = req.body.from
         let _to = req.body.to
 
-        let url = `https://maps.googleapis.com/maps/api/directions/json?origin=${_from}&destination=${_to}&key=${googleKey}`
+        let url = `https://maps.googleapis.com/maps/api/directions/json?origin=${_from}&destination=${_to}&key=`+configAPI.googleAPI
         return new Promise((resolve, reject) => {
             request (url, function (err, response, body) {
                 if (err) {
                     res.render('dashboard', {distance: null, duration: null, error: 'Error, please try again'});
-                } else {                            
+                } else {
                     let info = JSON.parse(body)
                     
                     if (info.status != "OK") {
@@ -105,7 +106,7 @@ module.exports = function(app, passport){
         _place = tmp.split(' ').join('+')
         console.log(_place);
         
-        let url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query==${_place}&key=${googleKey}`
+        let url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query==${_place}&key=`+configAPI.googleAPI
         
         return new Promise((resolve, reject) => {
             request (url, function (err, response, body) {
