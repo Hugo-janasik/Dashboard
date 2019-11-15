@@ -1,0 +1,52 @@
+
+{
+    "client": {
+        "host": ""
+    },
+    "Server": {
+        "current_time": "...........",
+        "services": [{
+            "name": "weather",
+            "widgets": [{
+                "name": "city_temperature",
+                "description": "Display temperature for a city",
+                "params": [{
+                    "name": "city",
+                    "type": "string"
+                }]
+            }]
+        }, {
+            "name": "Distance and Duration",
+            "widgets": [{
+                "name": "distance and duration",
+                "description": "Display the distance and the duration between 2 city",
+                "params": [{
+                    "name1": "from",
+                    "type1": "string",
+                    "name2": "to",
+                    "type2": "string"
+                }]
+            }]
+        }, {
+            "names": "Map",
+            "widgets": [{
+                "name": "map",
+                "description": "Display a map where we can interect with",
+                "params": [{
+                    "name": "none",
+                    "type": "none"
+                }]
+            }]
+        }, {
+            "names": "Places Infos",
+            "widgets": [{
+                "name": "places info",
+                "description": "Display the address and the opening of a restaurant",
+                "params": [{
+                    "name": "place",
+                    "type": "string"
+                }]
+            }]
+        }]
+    }
+}

@@ -13,6 +13,15 @@ module.exports = function(app, passport){
         res.render('index.ejs');
     });
 
+    app.get('/about.json', function(req, res) {
+        var ipClient = req.connection.remoteAddress.substring(7)
+        var Time = Date.now();
+
+        console.log(ipClient)
+        res.render('about', {IpClient: ipClient,
+                             Time: Time})
+    })
+
     app.get('/login', function(req, res){
         res.render('login.ejs', { message: req.flash('loginMessage') });
     });
