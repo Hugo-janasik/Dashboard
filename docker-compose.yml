@@ -16,6 +16,12 @@ services:
         - WEATHER_API=aa36a377f65e957bda9498b5d3593ac9
         - GOOGLE_API=AIzaSyBR-Z9hzONEATbPRVpISUv59OI7Zfb3TWc
 
+        - FACEBOOK_CLIENT_ID=577128116366065
+        - FACEBOOK_CLIENT_SECRET=b6130d2cf6a901dbdb8b69c7b8ff17a6
+
+        - GOOGLE_CLIENT_ID=25611898327-pbkd4f0p75q65347d971ng8qlqv2h7ge.apps.googleusercontent.com
+        - GOOGLE_CLIENT_SECRET=htdGGgTF8zhmXGSWH4ucoE_A
+
   mongo:
     image: "mongo"
     container_name: mongo

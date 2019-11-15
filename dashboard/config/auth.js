@@ -1,12 +1,12 @@
 module.exports = {
     'facebookAuth': {
-        'clientID': '577128116366065',
-        'clientSecret': 'b6130d2cf6a901dbdb8b69c7b8ff17a6',
+        'clientID': process.env.FACEBOOK_CLIENT_ID,
+        'clientSecret': process.env.FACEBOOK_CLIENT_SECRET,
         'callbackURL': 'http://localhost:8080/auth/facebook/callback'
     },
     'googleAuth': {
-        'clientID': '25611898327-pbkd4f0p75q65347d971ng8qlqv2h7ge.apps.googleusercontent.com',
-        'clientSecret': 'htdGGgTF8zhmXGSWH4ucoE_A',
+        'clientID': process.env.GOOGLE_CLIENT_ID,
+        'clientSecret': process.env.GOOGLE_CLIENT_SECRET,
         'callbackURL': 'http://localhost:8080/auth/google/callback'
     }
 }
