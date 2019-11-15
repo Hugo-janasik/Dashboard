@@ -44,6 +44,7 @@ docker-compose up
 ## API
 
 * **Facebook Auth** for authentification
+* **Google Auth** for authentification
 * **OpenWeather** for weather widget
 * **Google Maps Javascript API** for Map widget
 * **Google Direction API** ** for distance and duration widget
