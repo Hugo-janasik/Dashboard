@@ -5,8 +5,10 @@ const app = require('express');
 
 var configAPI = require('./../config/apikey');
 
-const apiKey = 'aa36a377f65e957bda9498b5d3593ac9';
-//const googleKey = 'AIzaSyBR-Z9hzONEATbPRVpISUv59OI7Zfb3TWc';
+global.weather = null;
+global.distance = null;
+global.duration = null;
+global.info = null;
 
 module.exports = function(app, passport){
 
@@ -44,6 +46,10 @@ module.exports = function(app, passport){
     }));
 
     app.get('/dashboard', isLoggedIn, function(req, res){
+        global.weather = null;
+        global.distance = null;
+        global.duration = null;
+        global.info = null;
         res.render('dashboard.ejs', { user: req.user });
     });
 
@@ -51,7 +57,7 @@ module.exports = function(app, passport){
 
     app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/dashboard', failureRedirect: '/' }));
 
-    app.get('/logout', function(req, res){
+    app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
     })
@@ -64,15 +70,17 @@ module.exports = function(app, passport){
                 return new Promise((resolve, reject) => {
                     request (url, function (err, response, body) {
                         if (err) {
-                            res.render('dashboard', {weather: null, error: 'Error, please try again'});
+                            global.weather = null;
+                            res.render('dashboard', {weather: global.weather, info: global.info, duration: global.duration, distance: global.distance, error: 'Error, please try again'});
                         } else {                            
                             let weather = JSON.parse(body)
                             
                             if (weather.main == undefined) {
-                                res.render('dashboard', {weather: null, error: 'Error, please try again'});
+                                global.weather = null;
+                                res.render('dashboard', {weather: global.weather, info: global.info, duration: global.duration, distance: global.distance, error: 'Error, please try again'});
                             } else {
-                                global.weatherId = `${weather.id}`;
-                                res.render('dashboard', {weather: global.weatherId, error: null});
+                                global.weather = `${weather.id}`;
+                                res.render('dashboard', {weather: global.weather, info: global.info, duration: global.duration, distance: global.distance, error: null});
                             }
                         }
                     });
@@ -91,10 +99,13 @@ module.exports = function(app, passport){
                     let info = JSON.parse(body)
                     
                     if (info.status != "OK") {
-                        res.render('dashbord', {distance: "Not found", duration: "Not found",error: null})
+                        global.distance = "Not found"
+                        global.duration = "Not found"
+                        res.render('dashbord', {weather: global.weather, info: global.info, duration: global.duration,distance: global.distance, error: null})
                     } else {
-                        console.log(info.routes[0].legs[0].distance.text);//.legs);//[0].distance.text);
-                        res.render('dashboard', {distance: info.routes[0].legs[0].distance.text, duration: info.routes[0].legs[0].duration.text, error: null});
+                        global.distance = info.routes[0].legs[0].distance.text
+                        global.duration = info.routes[0].legs[0].duration.text
+                        res.render('dashboard', {weather: global.weather, info: global.info, duration: global.duration,distance: global.distance, error: null});
                     }
                 }
             });
@@ -119,15 +130,15 @@ module.exports = function(app, passport){
                         res.render('dashbord', {info: "Not found", duration: "Not found",error: null})
                     } else {
                         console.log(data.results[0].formatted_address);
-                        var info = "Address: "
-                        info += data.results[0].formatted_address
+                        global.info = "Address: "
+                        global.info += data.results[0].formatted_address
                         if (data.results[0].opening_hours != undefined) {
                             if (data.results[0].opening_hours.open_now == true)
-                                info += " : open"
+                                global.info += " : open"
                             else
-                                info += " : close"
+                                global.info += " : close"
                         }
-                        res.render('dashboard', {info: info, error: null});
+                        res.render('dashboard', {weather: global.weather, info: global.info, duration: global.duration, distance: global.distance, error: null});
                     }
                 }
             });

@@ -13,6 +13,8 @@ services:
       - "8080:3000"
     environment:
         - MONGODB=mongodb://mongo:27017
+        - WEATHER_API=aa36a377f65e957bda9498b5d3593ac9
+        - GOOGLE_API=AIzaSyBR-Z9hzONEATbPRVpISUv59OI7Zfb3TWc
 
   mongo:
     image: "mongo"

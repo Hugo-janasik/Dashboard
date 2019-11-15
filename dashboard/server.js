@@ -12,7 +12,7 @@ var flash = require('connect-flash');
 
 
 var configDB = require('./config/database.js');
-mongoose.connect(configDB.url);
+mongoose.connect(configDB.mongoDB);
 require('./config/passport')(passport);
 
 // Display in Consol our REQUEST
