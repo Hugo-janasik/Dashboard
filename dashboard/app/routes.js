@@ -57,6 +57,10 @@ module.exports = function(app, passport){
 
     app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/dashboard', failureRedirect: '/' }));
 
+    app.get('/auth/google', passport.authenticate('google', {scope: ['email']}));
+
+    app.get('/auth/google/callback', passport.authenticate('google', { successRedirect: '/dashboard', failureRedirect: '/' }));
+
     app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');

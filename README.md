@@ -1,13 +1,13 @@
 # Dashboard
 
 Dashboard project from the AppDev module.
-The goal is to display widjet in a dashboard throught API and handle a system of connection with a database
+The goal is to display widget in a dashboard throught API and handle a system of connection with a database
 
 ## Getting Started
 
 Name of the repository : DEV_dashboard_2019
 
-owner : hugo.janasik@epitech.eu
+Owner : hugo.janasik@epitech.eu
 
 ### Prerequisites
 
@@ -44,10 +44,10 @@ docker-compose up
 ## API
 
 * **Facebook Auth** for authentification
-* **OpenWeather** for weather widjet
-* **Google Maps Javascript API** for Map widjet
-* **Google Direction API** ** for distance and duration widjet
-* **Google Place API** for address info widjet
+* **OpenWeather** for weather widget
+* **Google Maps Javascript API** for Map widget
+* **Google Direction API** ** for distance and duration widget
+* **Google Place API** for address info widget
 
 ## Built With
 
