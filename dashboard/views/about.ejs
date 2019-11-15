@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+    <% var IpClient;
+       var Time;
+    %>
+</head>
+
+<body>
+    {<br>
+        "client": {<br>
+            "host": "<%= IpClient %>"<br>
+        }<br>
+        "server": {<br>
+            "current_time": <%= Time %>,<br>
+            "services": [{<br>
+                "name": "weather",<br>
+                "widgets": [{<br>
+                    "name": "city_temperature",<br>
+                    "description": "Display temperature for a city",<br>
+                    "params": [{<br>
+                        "name": "city",<br>
+                        "type": "string"<br>
+                    }]<br>
+                }]<br>
+            }, {<br>
+                "name": "Distance and Duration",<br>
+                "widgets": [{<br>
+                    "name": "distance and duration",<br>
+                    "description": "Display the distance and the duration between 2 city",<br>
+                    "params": [{<br>
+                        "name": "from",<br>
+                        "type": "string",<br>
+                        "name": "to",<br>
+                        "type": string<br>
+                    }]<br>
+                }]<br>
+            }, {<br>
+                "names": "Map",<br>
+                "widgets": [{<br>
+                    "name": "map",<br>
+                    "description": "Display a map where we can interect with",<br>
+                    "params": [{<br>
+                        "name": "none",<br>
+                        "type": "none"
+                    }]<br>
+                }]<br>
+            }, {<br>
+                "names": "Places Infos",<br>
+                "widgets": [{<br>
+                    "name": "places info"<br>
+                    "description": "Display the address and the opening of a restaurant",<br>
+                    "params" [{<br>
+                        "name": "place",<br>
+                        "type": "string"<br>
+                    }]<br>
+                }]<br>
+            }]<br>
+        }<br>
+    }<br>
+</body>
+
+</html>
